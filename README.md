@@ -1,33 +1,107 @@
-# CollabDocs — Real-time Collaborative Editor
+# CollabDocs - Real-time Collaborative Editor
 
-A production-ready collaborative document editor built with Angular 18, Yjs (CRDT), y-websocket, and Quill.
+A CRDT-based collaborative text editor with real-time synchronization.
+
+## Project Structure
+
+```
+collab-editor/
+├── backend/              # WebSocket server (Node.js)
+│   ├── package.json
+│   ├── ws-server.js
+│   ├── Procfile         # Heroku/Railway deployment
+│   └── README.md
+├── src/                 # Angular frontend
+│   ├── app/
+│   ├── environments/
+│   └── index.html
+├── package.json         # Frontend dependencies
+├── angular.json
+├── tsconfig.json
+└── README.md
+```
+
+## Quick Start
+
+### Start Backend (Terminal 1)
+```bash
+cd backend
+npm install
+npm start
+# Runs on ws://localhost:1234
+```
+
+### Start Frontend (Terminal 2)
+```bash
+npm install
+npm start
+# Opens on http://localhost:4200/editor
+```
+
+Share the room ID with collaborators to collaborate in real-time!
+
+---
+
+## Deployment Guide
+
+### Step 1: Deploy Backend to Railway
+
+**Option A: Create separate backend repo**
+```bash
+mkdir collab-editor-backend
+cd collab-editor-backend
+cp -r ../collab-editor/backend/* .
+git init && git add . && git commit -m "Initial"
+git remote add origin https://github.com/YOUR-USERNAME/collab-editor-backend.git
+git push -u origin main
+```
+
+Then on Railway:
+1. Go to https://railway.app
+2. New Project → Deploy from GitHub
+3. Select `collab-editor-backend`
+4. Set `PORT` environment variable
+5. Get your URL: `wss://collab-editor-backend-xxxx.up.railway.app`
+
+**Option B: Use Render (simpler)**
+1. Go to https://render.com
+2. New Web Service → Connect GitHub → Select repo
+3. Start command: `npm start` (from backend/ folder)
+4. Get your deployed URL
+
+### Step 2: Update Frontend Config
+
+Edit [src/environments/environment.prod.ts](src/environments/environment.prod.ts):
+```typescript
+export const environment = {
+  production: true,
+  wsUrl: 'wss://your-railway-or-render-backend-url'
+};
+```
+
+Push to GitHub:
+```bash
+git add src/environments/environment.prod.ts
+git commit -m "Update backend URL"
+git push origin main
+```
+
+### Step 3: Deploy Frontend to Vercel
+
+1. Go to https://vercel.com
+2. Import this repo
+3. Vercel auto-detects Angular framework
+4. Deploy → Get your frontend URL
+
+### Final Result
+
+- **Frontend**: `https://your-app.vercel.app`
+- **Backend**: `wss://your-backend-url`
+- **Shareable Link**: `https://your-app.vercel.app/editor?room=abc123`
+
+---
 
 ## Architecture
-
-```
-src/app/
-├── core/services/
-│   └── collab.service.ts      ← Yjs + WebSocket + awareness logic
-├── features/editor/
-│   ├── editor.component.ts    ← Room join, Quill init, presence
-│   ├── editor.component.html  ← Lobby + Editor UI
-│   └── editor.component.css   ← Dark minimal theme
-├── shared/models/
-│   └── collab.models.ts       ← TypeScript interfaces
-└── app.routes.ts              ← /editor?room=<id> routing
-
-ws-server.js                   ← y-websocket relay server (Node.js)
-```
-
-## How CRDT collaboration works
-
-1. Each browser tab creates a **Y.Doc** (shared document)
-2. **y-websocket** syncs Y.Doc state between all clients via the WS server
-3. **Y.Text** is the CRDT-backed text type — edits are conflict-free by design
-4. **y-quill** binds Y.Text ↔ Quill deltas bidirectionally
-5. **Awareness** broadcasts cursor positions and user presence ephemerally
-
-## Prerequisites
 
 - Node.js ≥ 18
 - npm ≥ 9

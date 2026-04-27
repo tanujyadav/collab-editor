@@ -1,0 +1,17 @@
+{
+  "name": "collab-editor-backend",
+  "version": "1.0.0",
+  "description": "WebSocket server for real-time collaborative editing",
+  "main": "ws-server.js",
+  "scripts": {
+    "start": "node ws-server.js",
+    "dev": "node ws-server.js"
+  },
+  "engines": {
+    "node": "18.x"
+  },
+  "dependencies": {
+    "ws": "^8.17.1",
+    "y-websocket": "^2.0.3"
+  }
+}
