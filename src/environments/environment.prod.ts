@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  wsUrl: 'wss://collab-editor-backend.up.railway.app'
+  wsUrl: "wss://collab-editor-qoia.onrender.com",
 };
