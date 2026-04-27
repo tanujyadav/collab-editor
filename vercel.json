@@ -1,0 +1,8 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/collab-editor/browser",
+  "framework": "angular",
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
