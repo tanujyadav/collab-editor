@@ -1,0 +1,94 @@
+<!-- ═══════════════════════════════════════════════════════════
+     LOBBY VIEW — shown before joining a room
+═══════════════════════════════════════════════════════════ -->
+<div class="lobby" *ngIf="!joined">
+  <div class="lobby-card">
+    <div class="lobby-logo">
+      <span class="logo-icon">⬡</span>
+      <h1>Collab<strong>Docs</strong></h1>
+    </div>
+    <p class="lobby-subtitle">Real-time collaborative editing powered by CRDT</p>
+
+    <div class="field-group">
+      <label>Your Name</label>
+      <input
+        [(ngModel)]="userName"
+        placeholder="Enter your name"
+        (keydown.enter)="join()"
+        maxlength="30"
+      />
+    </div>
+
+    <div class="field-group">
+      <label>Room ID</label>
+      <div class="room-row">
+        <input [(ngModel)]="roomId" placeholder="Room ID" readonly />
+        <button class="btn-icon" title="New Room" (click)="roomId = collab.generateRoomId()">↺</button>
+      </div>
+      <span class="hint">Share this ID with collaborators to join the same document</span>
+    </div>
+
+    <div class="presence-dot" [style.background]="userColor"></div>
+
+    <button class="btn-join" (click)="join()">
+      Join Room →
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     EDITOR VIEW — shown after joining
+═══════════════════════════════════════════════════════════ -->
+<div class="workspace" *ngIf="joined">
+
+  <!-- Top Bar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="logo-sm">⬡ CollabDocs</span>
+      <div class="status-badge" [class.online]="connected" [class.offline]="!connected">
+        <span class="status-dot"></span>
+        {{ connected ? 'Live' : 'Connecting...' }}
+      </div>
+    </div>
+
+    <div class="topbar-center">
+      <span class="room-label">Room:</span>
+      <code class="room-id">{{ roomId }}</code>
+      <button class="btn-copy" (click)="copyLink()" title="Copy share link">
+        ⎘ Share
+      </button>
+    </div>
+
+    <div class="topbar-right">
+      <!-- User presence avatars -->
+      <div class="presence-list">
+        <div
+          class="avatar"
+          *ngFor="let user of users"
+          [style.background]="user.color"
+          [title]="user.name"
+        >
+          {{ getInitials(user.name) }}
+        </div>
+      </div>
+      <span class="user-count">{{ users.length }} online</span>
+    </div>
+  </header>
+
+  <!-- Editor Area -->
+  <main class="editor-wrapper">
+    <div class="editor-panel">
+      <!-- Quill mounts here -->
+      <div #editorContainer class="quill-host"></div>
+    </div>
+  </main>
+
+  <!-- Status Bar -->
+  <footer class="statusbar">
+    <span>{{ wordCount }} words</span>
+    <span class="sep">·</span>
+    <span>CRDT sync active</span>
+    <span class="sep">·</span>
+    <span [style.color]="userColor">● {{ userName }}</span>
+  </footer>
+</div>

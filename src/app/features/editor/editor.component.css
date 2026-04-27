@@ -1,0 +1,365 @@
+/* ── Design tokens ─────────────────────────────────────────── */
+:host {
+  --bg:        #0f0f10;
+  --surface:   #17171a;
+  --border:    #2a2a30;
+  --text:      #e8e8ec;
+  --muted:     #6b6b78;
+  --accent:    #5b6af0;
+  --accent-h:  #7b89ff;
+  --radius:    8px;
+  --font:      'DM Mono', 'Fira Code', monospace;
+  display: block;
+  height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+}
+
+/* ── LOBBY ─────────────────────────────────────────────────── */
+.lobby {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(ellipse at 30% 40%, #1a1b2e 0%, #0f0f10 70%);
+}
+
+.lobby-card {
+  width: 380px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 0 24px 64px rgba(0,0,0,.6);
+}
+
+.lobby-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  font-size: 28px;
+  color: var(--accent);
+}
+
+.lobby-logo h1 {
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: -0.5px;
+  margin: 0;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+}
+
+.lobby-logo h1 strong {
+  color: var(--accent-h);
+  font-weight: 700;
+}
+
+.lobby-subtitle {
+  font-size: 12px;
+  color: var(--muted);
+  margin: -8px 0 4px;
+  letter-spacing: 0.2px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field-group label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+}
+
+.field-group input {
+  background: #1e1e24;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+  padding: 10px 14px;
+  outline: none;
+  transition: border-color .2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.field-group input:focus { border-color: var(--accent); }
+
+.room-row {
+  display: flex;
+  gap: 8px;
+}
+
+.room-row input { flex: 1; color: var(--muted); }
+
+.btn-icon {
+  background: #1e1e24;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  width: 40px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background .2s;
+  flex-shrink: 0;
+}
+
+.btn-icon:hover { background: #2a2a34; }
+
+.hint {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.presence-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  align-self: flex-start;
+}
+
+.btn-join {
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius);
+  color: #fff;
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px;
+  cursor: pointer;
+  transition: background .2s, transform .1s;
+  letter-spacing: 0.3px;
+}
+
+.btn-join:hover { background: var(--accent-h); transform: translateY(-1px); }
+.btn-join:active { transform: translateY(0); }
+
+/* ── WORKSPACE ─────────────────────────────────────────────── */
+.workspace {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Top bar */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 52px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  gap: 12px;
+}
+
+.topbar-left, .topbar-center, .topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.topbar-center { justify-content: center; }
+.topbar-right  { justify-content: flex-end; }
+
+.logo-sm {
+  font-size: 14px;
+  color: var(--accent-h);
+  font-weight: 600;
+  letter-spacing: -0.3px;
+}
+
+/* Connection status badge */
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.status-badge.online { border-color: #2a9d5c44; color: #2a9d5c; }
+.status-badge.offline { border-color: #c0392b44; color: #c0392b; }
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.room-label { font-size: 11px; color: var(--muted); }
+
+.room-id {
+  font-family: var(--font);
+  font-size: 13px;
+  background: #1e1e24;
+  border: 1px solid var(--border);
+  padding: 3px 10px;
+  border-radius: 6px;
+  letter-spacing: 1px;
+}
+
+.btn-copy {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: all .2s;
+  font-family: var(--font);
+}
+
+.btn-copy:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Presence avatars */
+.presence-list {
+  display: flex;
+  gap: -6px;
+}
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+  border: 2px solid var(--bg);
+  margin-left: -6px;
+  transition: transform .2s;
+  cursor: default;
+}
+
+.avatar:first-child { margin-left: 0; }
+.avatar:hover { transform: translateY(-2px); z-index: 10; }
+
+.user-count { font-size: 11px; color: var(--muted); }
+
+/* Editor area */
+.editor-wrapper {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  background: var(--bg);
+  justify-content: center;
+  padding: 32px 24px;
+}
+
+.editor-panel {
+  width: 100%;
+  max-width: 860px;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Quill host — fills the panel */
+.quill-host {
+  flex: 1;
+  overflow: auto;
+}
+
+/* ── Quill theme overrides (dark) ──────────────────────────── */
+:host ::ng-deep .ql-toolbar.ql-snow {
+  background: #1a1a1f;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  padding: 8px 14px;
+}
+
+:host ::ng-deep .ql-toolbar.ql-snow .ql-stroke { stroke: var(--muted); }
+:host ::ng-deep .ql-toolbar.ql-snow .ql-fill   { fill: var(--muted); }
+:host ::ng-deep .ql-toolbar.ql-snow .ql-picker-label { color: var(--muted); }
+
+:host ::ng-deep .ql-toolbar.ql-snow button:hover .ql-stroke,
+:host ::ng-deep .ql-toolbar.ql-snow .ql-active .ql-stroke {
+  stroke: var(--accent-h);
+}
+
+:host ::ng-deep .ql-toolbar.ql-snow button:hover .ql-fill,
+:host ::ng-deep .ql-toolbar.ql-snow .ql-active .ql-fill {
+  fill: var(--accent-h);
+}
+
+:host ::ng-deep .ql-container.ql-snow {
+  border: none;
+  background: var(--surface);
+}
+
+:host ::ng-deep .ql-editor {
+  font-family: 'Georgia', serif;
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--text);
+  min-height: 400px;
+  padding: 32px 40px;
+  caret-color: var(--accent-h);
+}
+
+:host ::ng-deep .ql-editor.ql-blank::before {
+  color: var(--muted);
+  font-style: italic;
+  left: 40px;
+}
+
+:host ::ng-deep .ql-editor h1,
+:host ::ng-deep .ql-editor h2,
+:host ::ng-deep .ql-editor h3 {
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* Remote cursor from y-quill */
+:host ::ng-deep .ql-cursor-flag { font-size: 11px; font-family: var(--font); }
+
+/* Status bar */
+.statusbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 24px;
+  height: 30px;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.sep { opacity: 0.4; }
